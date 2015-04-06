@@ -154,6 +154,7 @@ public class MainActivity extends Activity {
     }
     //设置监听器内部类
     private class MyListener implements SensorEventListener {
+        int speed_num=0;
         @Override
         public void onSensorChanged(SensorEvent event) {
 
@@ -167,7 +168,8 @@ public class MainActivity extends Activity {
 //            etz = (EditText) MainActivity.this.findViewById(R.id.editTextz);
             DecimalFormat df = new DecimalFormat("0.00");
             if(gravity_flag){
-                if((data[1]>4.5)){
+                /*舵机算法处理*/
+                if((data[1]>4.5)){//fff
                     data[1] = (float)4.5;
                 }else if(data[1]<-4.5){
                     data[1] = (float)(-4.5);
@@ -178,7 +180,8 @@ public class MainActivity extends Activity {
                 bluetoothUtil.write(new byte[]{(byte)~BluetoothUtil.getIntegerToByte(y_data)});
                 gravity_flag = false;
             }else{
-                if(data[0]>=0){
+                /*电机算法处理*/
+                if(data[0]>=0){ //后退处理
                     if(data[0]>4.5){
                         data[0]=(float)4.5;
                     }
@@ -186,7 +189,7 @@ public class MainActivity extends Activity {
                     x_data = x_data*80/45;
                    // Log.i("Gy", "Gy:"+x_data);
                     bluetoothUtil.write(new byte[]{BluetoothUtil.getIntegerToByte(x_data)});
-                }else{
+                }else{  //前进处理
                     if(data[0]<-4.5){
                         data[0]=(float)-4.5;
                     }
