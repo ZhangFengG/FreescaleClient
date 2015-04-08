@@ -43,6 +43,7 @@ import android.widget.TextView;
 
 import com.freescale.zhangfeng.bluetooth.BluetoothUtil;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 
 
@@ -166,6 +167,8 @@ public class MainActivity extends Activity {
 //            etx = (EditText) MainActivity.this.findViewById(R.id.editTextx);
 //            ety = (EditText) MainActivity.this.findViewById(R.id.editTexty);
 //            etz = (EditText) MainActivity.this.findViewById(R.id.editTextz);
+            data[0]-=4.5;
+            data[0] = -data[0];
             DecimalFormat df = new DecimalFormat("0.00");
             if(gravity_flag){
                 /*舵机算法处理*/
@@ -186,6 +189,7 @@ public class MainActivity extends Activity {
                         data[0]=(float)4.5;
                     }
                     int x_data = (int)(data[0]*100/10);
+                    speed_num = x_data;
                     x_data = x_data*80/45;
                    // Log.i("Gy", "Gy:"+x_data);
                     bluetoothUtil.write(new byte[]{BluetoothUtil.getIntegerToByte(x_data)});
@@ -194,10 +198,13 @@ public class MainActivity extends Activity {
                         data[0]=(float)-4.5;
                     }
                     int x_data = (int)(data[0]*100/10);
+                    speed_num = x_data;
                     x_data = 80-x_data;
                    // Log.i("Gy", "----Gy:"+x_data);
                     bluetoothUtil.write(new byte[]{BluetoothUtil.getIntegerToByte(x_data)});
                 }
+                DecimalFormat decimalFormat = new DecimalFormat("00.0");
+                tvSpeed.setText(Integer.toString(speed_num));
                 gravity_flag = true;
             }
 
